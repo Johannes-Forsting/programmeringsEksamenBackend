@@ -24,6 +24,7 @@ public class CarService {
 
     public List<CarResponse> getCars() {
         List<Car> cars = carRepository.findAll();
+
         return cars.stream().map(car -> new CarResponse(car)).toList();
     }
     public List<CarResponse> getCarsPageable(Pageable pageable) {
@@ -33,17 +34,13 @@ public class CarService {
 
 
 
-
     public List<CarResponse> getCarsFilter(String column, String val, Pageable pageable){
         return switch (column){
             case "brand" ->  carRepository.findCarByBrand(pageable, val).stream().map(CarResponse::new).collect(Collectors.toList());
             case "model" -> carRepository.findCarByModel(pageable, val).stream().map(CarResponse::new).collect(Collectors.toList());
-
             case "color"-> carRepository.findCarByColor(pageable, val).stream().map(CarResponse::new).collect(Collectors.toList());
 
-            case "kilometers"-> carRepository.findCarByKilometers(pageable, val).stream().map(CarResponse::new).collect(Collectors.toList());
             default -> null;
-
         };
 
     }
